@@ -1,11 +1,12 @@
-def call() {
+def call(String imagename) {
     echo 'building the maven application Image..'
     withCredentials([usernamePassword(credentialsId: 'kalaimanims-Dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
     sh 'docker images'
-    sh 'docker build -t kalaimanims/mavenapp:1.2 .'
+    sh "docker build -t $imagename ."
     sh 'docker images'
     sh "echo $PASS | docker login -u $USER --password-stdin"
-    sh 'docker push kalaimanims/mavenapp:1.2'
+    // $imagename varible described in muti.jenkinsfile java maven app Repostory
+    sh "docker push $imagename"
     sh 'docker images'
 }
 }
